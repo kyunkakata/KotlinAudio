@@ -18,5 +18,19 @@ data class PlayerConfig(
     /**
      * Toggle whether the player should pause automatically when audio is rerouted from a headset to device speakers.
      */
-    val handleAudioBecomingNoisy: Boolean = false
+    val handleAudioBecomingNoisy: Boolean = false,
+
+    /**
+     * Whether audio focus should be managed automatically. See https://medium.com/google-exoplayer/easy-audio-focus-with-exoplayer-a2dcbbe4640e
+     */
+    val handleAudioFocus: Boolean = false,
+    /**
+     * The audio content type.
+     */
+    val audioContentType: AudioContentType = AudioContentType.MUSIC,
+
+    /**
+     * The audio usage.
+     */
+    val wakeMode: WakeMode = WakeMode.NONE,
 )

@@ -1,5 +1,7 @@
 package com.doublesymmetry.kotlinaudio.models
 
+import android.graphics.Bitmap
+
 interface AudioItem {
     var audioUrl: String
     val type: MediaType
@@ -7,7 +9,7 @@ interface AudioItem {
     var title: String?
     var albumTitle: String?
     val artwork: String?
-    val duration: Long
+    val duration: Long?
     val options: AudioItemOptions?
 }
 
@@ -50,7 +52,13 @@ data class DefaultAudioItem(
     override var artist: String? = null,
     override var title: String? = null,
     override var albumTitle: String? = null,
-    override val artwork: String? = null,
-    override val duration: Long = -1,
-    override val options: AudioItemOptions? = null
+    override var artwork: String? = null,
+    override val duration: Long? = null,
+    override val options: AudioItemOptions? = null,
 ) : AudioItem
+
+class AudioItemHolder(
+    var audioItem: AudioItem
+) {
+    var artworkBitmap: Bitmap? = null
+}
