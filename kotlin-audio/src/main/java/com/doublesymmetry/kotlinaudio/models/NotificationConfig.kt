@@ -2,6 +2,7 @@ package com.doublesymmetry.kotlinaudio.models
 
 import android.app.PendingIntent
 import androidx.annotation.DrawableRes
+import com.google.android.exoplayer2.ui.PlayerNotificationManager.*
 
 /**
  * Used to configure the player notification.
@@ -30,13 +31,27 @@ data class NotificationConfig(
  * @see [com.doublesymmetry.kotlinaudio.notification.NotificationManager.showPreviousButton]
  * @see [com.doublesymmetry.kotlinaudio.notification.NotificationManager.showPreviousButtonCompact]
  */
-@Suppress("ClassName")
-sealed class NotificationButton {
-    class PLAY_PAUSE(@DrawableRes val playIcon: Int? = null, @DrawableRes val pauseIcon: Int? = null): NotificationButton()
-    class STOP(@DrawableRes val icon: Int? = null): NotificationButton()
-    class FORWARD(@DrawableRes val icon: Int? = null, val isCompact: Boolean = false): NotificationButton()
-    class BACKWARD(@DrawableRes val icon: Int? = null, val isCompact: Boolean = false): NotificationButton()
-    class NEXT(@DrawableRes val icon: Int? = null, val isCompact: Boolean = false): NotificationButton()
-    class PREVIOUS(@DrawableRes val icon: Int? = null, val isCompact: Boolean = false): NotificationButton()
-    object SEEK_TO : NotificationButton()
+sealed class NotificationButton(@DrawableRes val icon: Int?) {
+    class PLAY(@DrawableRes icon: Int? = null): NotificationButton(icon)
+    class PAUSE(@DrawableRes icon: Int? = null): NotificationButton(icon)
+    class STOP(@DrawableRes icon: Int? = null): NotificationButton(icon)
+    class FORWARD(@DrawableRes icon: Int? = null, val isCompact: Boolean = false): NotificationButton(icon)
+    class BACKWARD(@DrawableRes icon: Int? = null, val isCompact: Boolean = false): NotificationButton(icon)
+    class NEXT(@DrawableRes icon: Int? = null, val isCompact: Boolean = false): NotificationButton(icon)
+    class PREVIOUS(@DrawableRes icon: Int? = null, val isCompact: Boolean = false): NotificationButton(icon)
+
+    companion object {
+        internal fun valueOf(value: String): NotificationButton {
+            return when(value) {
+                ACTION_PLAY -> PLAY()
+                ACTION_PAUSE -> PAUSE()
+                ACTION_STOP -> STOP()
+                ACTION_FAST_FORWARD -> FORWARD()
+                ACTION_REWIND -> BACKWARD()
+                ACTION_NEXT -> NEXT()
+                ACTION_PREVIOUS -> PREVIOUS()
+                else -> error("No such button exists")
+            }
+        }
+    }
 }
